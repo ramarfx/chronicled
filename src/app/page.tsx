@@ -17,7 +17,7 @@ const getMessages = async () => {
 };
 
 export default function Home() {
-  const [messages, setMessages] = useState([] as Message[]);
+  const [messages, setMessages] = useState<Message[] | []>([]);
   const [file, setFile] = useState<File | null>(null);
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
