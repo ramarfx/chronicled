@@ -2,7 +2,7 @@
 "use client";
 import { FormEvent, useEffect, useState } from "react";
 import { Message } from "./type";
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 
 const getMessages = async () => {
   try {
@@ -62,7 +62,9 @@ export default function Home() {
 
       return response.data;
     } catch (error) {
-      throw error.response;
+      if (error instanceof AxiosError) {
+        throw error.response;
+      }
     }
   };
 
