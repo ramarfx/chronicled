@@ -1,14 +1,16 @@
 import { axiosClient } from "@/libs/axiosClient";
-import { NextRequest, NextResponse } from "next/server";
+import { NextResponse } from "next/server";
 
-export async function GET(req: NextRequest) {
+export async function GET() {
   try {
-    const response = await axiosClient.get("/users/@me/guilds");
+    const response = await axiosClient.get("/applications/@me");
 
-    return NextResponse.json(response.data);
+    if (response.status === 200) {
+      return NextResponse.json("status ok");
+    }
   } catch (error) {
     console.error(error);
 
-    return NextResponse.json(error);
+    return NextResponse.json("status is not ok");
   }
 }
