@@ -93,7 +93,7 @@ export default function Home() {
       <div className="grid grid-cols-8">
         {messages && messages.length > 0 ? (
           messages.map((message) =>
-            Array.isArray(message.attachments) && message.attachments.length > 0
+            message.attachments.length > 0
               ? message.attachments.map((attachment) => (
                   <div
                     key={attachment.id}
