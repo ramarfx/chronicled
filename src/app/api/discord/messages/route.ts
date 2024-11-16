@@ -55,7 +55,7 @@ export async function POST(request: NextRequest) {
     console.log(response.data);
 
     return NextResponse.json(response.data);
-  } catch (error: any) {
+  } catch (error) {
     console.error("Error uploading file to Discord:", error);
 
     return NextResponse.json({ error: error.message }, { status: 500 });
