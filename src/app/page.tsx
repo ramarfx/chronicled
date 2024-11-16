@@ -91,19 +91,25 @@ export default function Home() {
       </form>
 
       <div className="grid grid-cols-8">
-        {messages.map((message) => {
-          return message.attachments.map((attachment) => (
-            <div
-              key={attachment.id}
-              className="border border-white flex justify-center">
-              <img
-                alt={attachment.filename}
-                src={attachment.url}
-                className="h-[100px] w-auto m-2"
-              />
-            </div>
-          ));
-        })}
+        {messages && messages.length > 0 ? (
+          messages.map((message) =>
+            Array.isArray(message.attachments) && message.attachments.length > 0
+              ? message.attachments.map((attachment) => (
+                  <div
+                    key={attachment.id}
+                    className="border border-white flex justify-center">
+                    <img
+                      alt={attachment.filename}
+                      src={attachment.url}
+                      className="h-[100px] w-auto m-2"
+                    />
+                  </div>
+                ))
+              : null
+          )
+        ) : (
+          <p>Belum ada gambar yang diupload</p>
+        )}
       </div>
     </div>
   );
