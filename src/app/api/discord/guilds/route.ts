@@ -1,4 +1,4 @@
-import { axiosClient } from "@/libs/axiosClient";
+import { axiosClient } from "@/lib/axiosClient";
 import { NextResponse } from "next/server";
 
 export async function GET() {

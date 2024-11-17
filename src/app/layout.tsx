@@ -1,17 +1,7 @@
 import type { Metadata } from "next";
-import localFont from "next/font/local";
 import "./globals.css";
-
-const geistSans = localFont({
-  src: "./fonts/GeistVF.woff",
-  variable: "--font-geist-sans",
-  weight: "100 900",
-});
-const geistMono = localFont({
-  src: "./fonts/GeistMonoVF.woff",
-  variable: "--font-geist-mono",
-  weight: "100 900",
-});
+import { Toaster } from "@/components/ui/toaster";
+import { Github, Instagram } from "lucide-react";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -25,10 +15,26 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
+      <body className={`antialiased`}>
         {children}
+
+        <footer className="mx-auto flex items-center justify-center gap-8 my-8 max-w-screen-sm w-full">
+          <a
+            href="https://github.com/ramarfx"
+            className="flex gap-2 items-center hover:underline-offset-2 hover:underline">
+            <Github className="size-[18px]" />
+            <p>@ramarfx</p>
+          </a>
+          <p className="hidden md:block">Ramarfx 2024</p>
+          <a
+            href="https://instagram.com/ramtxh"
+            className="flex gap-2 items-center hover:underline-offset-2 hover:underline">
+            <Instagram className="size-[18px]" />
+            <p>@ramtxh</p>
+          </a>
+        </footer>
+
+        <Toaster />
       </body>
     </html>
   );
