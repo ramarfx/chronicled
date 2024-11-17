@@ -1,3 +1,5 @@
+@import url("https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&display=swap");
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -64,7 +66,7 @@ body {
 
 @layer base {
   * {
-    @apply border-border;
+    @apply border-border font-['Outfit'];
   }
   body {
     @apply bg-background text-foreground;

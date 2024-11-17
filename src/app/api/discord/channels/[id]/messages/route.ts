@@ -8,7 +8,7 @@ type params = {
 };
 
 export async function GET(_: Request, { params }: { params: params }) {
-  const { id } = params;
+  const { id } = await params;
 
   try {
     const response = await axiosClient.get(`/channels/${id}/messages`);
@@ -31,7 +31,7 @@ export async function POST(
   request: NextRequest,
   { params }: { params: params }
 ) {
-  const { id } = params;
+  const { id } = await params;
   const formData = await request.formData();
   const file = formData.get("file") as File;
   const content = formData.get("content") as string | null;
