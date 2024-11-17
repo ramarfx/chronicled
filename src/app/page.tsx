@@ -1,20 +1,10 @@
-/* eslint-disable @next/next/no-img-element */
 "use client";
 import { FormEvent, useEffect, useState } from "react";
 import { Message } from "./type";
 import axios, { AxiosError } from "axios";
+import Image from "next/image";
 
-const getMessages = async () => {
-  try {
-    const response = await axios.get("/api/discord/messages");
-
-    console.log(response.data);
-
-    return response.data;
-  } catch (error) {
-    throw error;
-  }
-};
+const CHANNEL_ID = "1307690396490661951";
 
 export default function Home() {
   const [messages, setMessages] = useState<Message[] | []>([]);
@@ -53,7 +43,10 @@ export default function Home() {
     formData.append("file", file);
 
     try {
-      const response = await axios.post("/api/discord/messages", formData);
+      const response = await axios.post(
+        `/api/discord/channels/${CHANNEL_ID}/messages`,
+        formData
+      );
 
       console.log(response.data);
 
@@ -98,9 +91,11 @@ export default function Home() {
                   <div
                     key={attachment.id}
                     className="border border-white flex justify-center">
-                    <img
+                    <Image
                       alt={attachment.filename}
                       src={attachment.url}
+                      width={300}
+                      height={300}
                       className="h-[100px] w-auto m-2"
                     />
                   </div>
@@ -114,3 +109,15 @@ export default function Home() {
     </div>
   );
 }
+
+const getMessages = async () => {
+  try {
+    const response = await axios.get(
+      `/api/discord/channels/${CHANNEL_ID}/messages`
+    );
+
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};

@@ -1,28 +1,37 @@
 import { axiosClient } from "@/lib/axiosClient";
+import { AxiosError } from "axios";
 import FormData from "form-data";
 import { NextRequest, NextResponse } from "next/server";
 
-export const config = {
-  api: {
-    bodyParser: false,
-  },
+type params = {
+  id: string;
 };
 
-export async function GET() {
+export async function GET(_: Request, { params }: { params: params }) {
+  const { id } = params;
+
   try {
-    const response = await axiosClient.get(
-      "/channels/1258068559603433617/messages"
-    );
+    const response = await axiosClient.get(`/channels/${id}/messages`);
 
     return NextResponse.json(response.data);
   } catch (error) {
-    console.error(error);
-
-    return NextResponse.json(error);
+    if (error instanceof AxiosError) {
+      return NextResponse.json(error.response?.data, {
+        status: error.response?.status,
+      });
+    } else if (error instanceof Error) {
+      return NextResponse.json(error.message, { status: 500 });
+    } else {
+      return NextResponse.json({ error: "unknown error" }, { status: 500 });
+    }
   }
 }
 
-export async function POST(request: NextRequest) {
+export async function POST(
+  request: NextRequest,
+  { params }: { params: params }
+) {
+  const { id } = params;
   const formData = await request.formData();
   const file = formData.get("file") as File;
   const content = formData.get("content") as string | null;
@@ -37,15 +46,11 @@ export async function POST(request: NextRequest) {
     data.append("file", buffer, file.name);
     data.append("content", content || "");
 
-    const response = await axiosClient.post(
-      "/channels/1258068559603433617/messages",
-      data,
-      {
-        headers: {
-          ...data.getHeaders(),
-        },
-      }
-    );
+    const response = await axiosClient.post(`/channels/${id}/messages`, data, {
+      headers: {
+        ...data.getHeaders(),
+      },
+    });
 
     console.log(response.data);
 
