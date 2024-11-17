@@ -3,12 +3,11 @@ import { AxiosError } from "axios";
 import FormData from "form-data";
 import { NextRequest, NextResponse } from "next/server";
 
-type params = {
-  id: string;
-};
-
-export async function GET(_: Request, { params }: { params: params }) {
-  const { id } = params;
+export async function GET(
+  _: Request,
+  { params }: { params: Promise<{ id: string }> }
+) {
+  const { id } = await params;
 
   try {
     const response = await axiosClient.get(`/channels/${id}/messages`);
@@ -29,9 +28,9 @@ export async function GET(_: Request, { params }: { params: params }) {
 
 export async function POST(
   request: NextRequest,
-  { params }: { params: params }
+  { params }: { params: Promise<{ id: string }> }
 ) {
-  const { id } = params;
+  const { id } = await params;
   const formData = await request.formData();
   const file = formData.get("file") as File;
   const content = formData.get("content") as string | null;
@@ -59,7 +58,10 @@ export async function POST(
     console.error("Error uploading file to Discord:", error);
 
     if (error instanceof AxiosError) {
-      return NextResponse.json({ error: error.response?.data }, { status: 400 });
+      return NextResponse.json(
+        { error: error.response?.data },
+        { status: 400 }
+      );
     }
 
     return NextResponse.json({ error: "unknown error" }, { status: 500 });

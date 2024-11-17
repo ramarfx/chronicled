@@ -2,12 +2,11 @@ import { axiosClient } from "@/lib/axiosClient";
 import { AxiosError } from "axios";
 import { NextResponse } from "next/server";
 
-type params = {
-  id: string;
-};
-
-export async function GET(_: Request, { params }: { params: params }) {
-  const { id } = params;
+export async function GET(
+  _: Request,
+  { params }: { params: Promise<{ id: string }> }
+) {
+  const { id } = await params;
 
   try {
     const response = await axiosClient.get(`/guilds/${id}/channels`);
@@ -19,7 +18,7 @@ export async function GET(_: Request, { params }: { params: params }) {
         status: error.response?.status,
       });
     }
-    
+
     if (error instanceof Error) {
       return NextResponse.json(error.message, { status: 500 });
     }
