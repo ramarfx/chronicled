@@ -58,8 +58,10 @@ export async function POST(
   } catch (error) {
     console.error("Error uploading file to Discord:", error);
 
-    if (error instanceof Error) {
-      return NextResponse.json({ error: error.message }, { status: 500 });
+    if (error instanceof AxiosError) {
+      return NextResponse.json({ error: error.response?.data }, { status: 400 });
     }
+
+    return NextResponse.json({ error: "unknown error" }, { status: 500 });
   }
 }
