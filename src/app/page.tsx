@@ -1,7 +1,7 @@
 /* eslint-disable react/no-unescaped-entities */
 "use client";
 
-import { FormEvent, Suspense, useEffect, useRef, useState } from "react";
+import { FormEvent, Suspense, useEffect, useState } from "react";
 import { Message } from "./type";
 import axios, { AxiosError } from "axios";
 import Image from "next/image";
@@ -17,7 +17,7 @@ import {
   DialogTitle,
   DialogFooter,
 } from "@/components/ui/dialog";
-import { LoaderCircle, Plus } from "lucide-react";
+import { Images, LoaderCircle, Plus } from "lucide-react";
 import Loader from "@/components/Loader";
 import { useToast } from "@/hooks/use-toast";
 
@@ -81,7 +81,6 @@ export default function Home() {
       });
     } catch (error) {
       if (error instanceof AxiosError) {
-        
         return toast({
           variant: "destructive",
           title: "Failed",
@@ -93,12 +92,12 @@ export default function Home() {
           title: "Failed",
           description: error.message,
         });
-      }else {
+      } else {
         return toast({
           variant: "destructive",
           title: "Failed",
           description: "Something went wrong",
-        })
+        });
       }
     } finally {
       setIsLoading(false);
@@ -113,7 +112,10 @@ export default function Home() {
   return (
     <div className="container">
       <header>
-        <h1 className="text-3xl text-center mt-4 mb-10">Chronicled Gallery</h1>
+        <h1 className="text-3xl text-center mt-5 mb-5 flex gap-2 items-center justify-center">
+          <Images className="inline" />
+          Chronicled Gallery
+        </h1>
 
         <Dialog>
           <DialogTrigger asChild className="flex justify-end">
